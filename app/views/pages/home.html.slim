@@ -2,7 +2,11 @@
   .columns
     h2
       = title("Home")
+
 = render "pages/google_map", gmaps_url: gmaps_url, marker_clusterer_url: marker_clusterer_url
+.row
+  h2 Recent Articles
+  = render articles, cached: true
 
 javascript:
   App.locations = #{{locations.to_json}};

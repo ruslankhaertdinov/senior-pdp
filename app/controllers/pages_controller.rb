@@ -3,7 +3,10 @@ class PagesController < ApplicationController
 
   helper_method :locations
 
+  expose(:articles) { Article.order_recent.limit(10) }
+
   def home
+    fresh_when(articles)
   end
 
   private
