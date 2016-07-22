@@ -6,18 +6,19 @@ class PagesController < ApplicationController
   expose(:articles) { Article.order_recent.limit(10) }
 
   def home
-    fresh_when(articles)
+    fresh_when(articles + locations)
   end
 
   private
 
   def locations
-    User.with_position.map do |user|
-      {
-        lat: user.latitude,
-        lng: user.longitude,
-        info: user.full_name
-      }
-    end
+    @locations ||=
+      User.with_position.map do |user|
+        {
+          lat: user.latitude,
+          lng: user.longitude,
+          info: user.full_name
+        }
+      end
   end
 end
