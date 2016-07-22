@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :articles, dependent: :destroy
+
   validates :full_name, presence: true
 
   after_validation :geocode, if: :full_address_changed?
