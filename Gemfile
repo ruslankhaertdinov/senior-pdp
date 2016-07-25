@@ -23,6 +23,7 @@ gem "simple_form"
 gem "slim"
 
 # all other gems
+gem "active_model_serializers", "~> 0.10.0"
 gem "country_select"
 gem "dalli"
 gem "decent_decoration"
