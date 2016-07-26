@@ -89,7 +89,6 @@ $(document).ready(function(){
 
   function redrawMarkers(locations) {
     deleteMarkers();
-    deleteInfowindows();
     drawMarkers(locations);
 
     markerCluster.clearMarkers();
@@ -98,18 +97,15 @@ $(document).ready(function(){
 
   function deleteMarkers() {
     clearMarkers();
+    closeInfoWindows();
     markers = [];
+    infoWindows = [];
   }
 
   function clearMarkers() {
     markers.forEach(function(marker, i){
       marker.setMap(null);
     })
-  }
-
-  function deleteInfowindows() {
-    closeInfoWindows();
-    infoWindows = [];
   }
 
   initMap();

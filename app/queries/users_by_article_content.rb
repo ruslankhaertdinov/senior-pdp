@@ -2,6 +2,8 @@ class UsersByArticleContent
   attr_reader :query
   private :query
 
+  delegate :with_position, to: :all
+
   def initialize(query)
     @query = query
   end
