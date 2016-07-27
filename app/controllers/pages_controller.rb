@@ -1,17 +1,17 @@
 class PagesController < ApplicationController
   include GmapsLinks
 
-  helper_method :locations
+  helper_method :authors
 
   expose(:articles) { Article.order_recent.limit(10) }
 
   def home
-    fresh_when(last_modified: last_modified)
+    # fresh_when(last_modified: last_modified)
   end
 
   private
 
-  def locations
+  def authors
     users_with_position.map do |user|
       {
         lat: user.latitude,

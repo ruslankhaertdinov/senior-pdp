@@ -1,12 +1,16 @@
 $(document).ready(function(){
   var DEFAULT_COORDS = { lat: 37.773972, lng: -122.431297 };
-  var LOCATIONS = App.locations;
+  var AUTHORS = App.authors;
   var IMAGE_PATH = "https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m";
   var infoWindows = [];
   var markers = [];
+  var timerId = null;
+  var $query = $("#query");
+  var map;
+  var markerCluster;
 
   function initMap() {
-    var map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
       center: DEFAULT_COORDS,
       zoom: 7,
       scrollwheel: false
@@ -22,7 +26,8 @@ $(document).ready(function(){
       fetchIPLocation(map);
     }
 
-    drawMarkers(map);
+    drawMarkers(AUTHORS);
+    markerCluster = new MarkerClusterer(map, markers, { imagePath: IMAGE_PATH });
   }
 
   function fetchIPLocation(map) {
@@ -38,18 +43,27 @@ $(document).ready(function(){
     };
   }
 
-  function drawMarkers(map) {
-    LOCATIONS.forEach(function(location, i){
-      var marker = new google.maps.Marker({ position: location, map: map });
-      markers.push(marker);
-      marker.addListener("click", function() {
-        closeInfoWindows();
-        createInfoWindow(location.info).open(map, marker);
-        map.panTo(marker.getPosition());
-      });
+  function drawMarkers(locations) {
+    locations.forEach(function(location, i){
+      addMarker(location);
     });
+  }
 
-    var markerCluster = new MarkerClusterer(map, markers, { imagePath: IMAGE_PATH });
+  function bindFilter() {
+    $query.on("input", function(){
+      clearTimeout(timerId);
+      timerId = setTimeout(search, 500);
+    });
+  }
+
+  function addMarker(location) {
+    var marker = new google.maps.Marker({ position: location, map: map });
+    markers.push(marker);
+    marker.addListener("click", function() {
+      closeInfoWindows();
+      createInfoWindow(location.info).open(map, marker);
+      map.panTo(marker.getPosition());
+    });
   }
 
   function createInfoWindow(content) {
@@ -64,5 +78,36 @@ $(document).ready(function(){
     })
   }
 
+  function search() {
+    $.get("/authors/search", { query: $query.val() })
+      .done(function(data) {
+        redrawMarkers(data.users)
+      }).fail(function() {
+        console.error("Search error");
+      });
+  }
+
+  function redrawMarkers(locations) {
+    deleteMarkers();
+    drawMarkers(locations);
+
+    markerCluster.clearMarkers();
+    markerCluster.addMarkers(markers);
+  }
+
+  function deleteMarkers() {
+    clearMarkers();
+    closeInfoWindows();
+    markers = [];
+    infoWindows = [];
+  }
+
+  function clearMarkers() {
+    markers.forEach(function(marker, i){
+      marker.setMap(null);
+    })
+  }
+
   initMap();
+  bindFilter();
 });
