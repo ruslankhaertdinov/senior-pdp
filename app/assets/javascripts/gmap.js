@@ -50,9 +50,8 @@ $(document).ready(function(){
   }
 
   function bindFilter() {
-    $query.on("input", function(){
-      clearTimeout(timerId);
-      timerId = setTimeout(search, 500);
+    $query.bind("typeahead:select", function(e, suggestion) {
+      search(suggestion.title);
     });
   }
 
@@ -78,12 +77,12 @@ $(document).ready(function(){
     })
   }
 
-  function search() {
-    $.get("/authors/search", { query: $query.val() })
+  function search(query) {
+    $.get("/authors/search", { query: query })
       .done(function(data) {
         redrawMarkers(data.users)
       }).fail(function() {
-        console.error("Search error");
+        console.error("Redraw error.");
       });
   }
 
@@ -108,6 +107,28 @@ $(document).ready(function(){
     })
   }
 
+  function initializeAutocomplete() {
+    var articles = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace("title"),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: {
+        url: "/articles.json",
+        cache: false,
+        transform: function(response) {
+          return response.articles;
+        }
+      }
+    });
+
+    articles.initialize();
+
+    $query.typeahead(null, {
+      display: "title",
+      source: articles.ttAdapter()
+    });
+  }
+
   initMap();
+  initializeAutocomplete();
   bindFilter();
 });
