@@ -87,7 +87,7 @@ $(document).ready(function(){
       .done(function(data) {
         redrawMarkers(data.users)
       }).fail(function() {
-        console.error("Redraw error.");
+        console.error("Search error.");
       });
   }
 
@@ -118,10 +118,7 @@ $(document).ready(function(){
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       prefetch: {
         url: "/articles.json",
-        cache: false,
-        transform: function(response) {
-          return response.articles;
-        }
+        transform: function(response) { return response.articles; }
       }
     });
 
