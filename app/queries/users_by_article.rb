@@ -1,4 +1,4 @@
-class UsersByArticleContent
+class UsersByArticle
   attr_reader :query
   private :query
 
@@ -11,8 +11,8 @@ class UsersByArticleContent
   def all
     return User.all if query.blank?
 
-    Rails.cache.fetch(query) do
-      User.joins(:articles).where("articles.body ~* ?", query).uniq
-    end
+    # Rails.cache.fetch(query) do
+      User.joins(:articles).where("articles.title ~* ?", query).uniq
+    # end
   end
 end

@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   expose(:articles) { Article.order_recent.limit(10) }
 
   def home
-    fresh_when(last_modified: last_modified)
+    # fresh_when(last_modified: last_modified)
   end
 
   private
