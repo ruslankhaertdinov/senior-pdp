@@ -46,6 +46,10 @@ gem "rollbar"
 gem "seedbank"
 gem "stackprof"
 
+source "https://rails-assets.org" do
+  gem "rails-assets-typeahead.js"
+end
+
 group :test, :development, :staging do
   gem "factory_girl_rails"
   gem "faker"
