@@ -53,6 +53,11 @@ $(document).ready(function(){
     $query.bind("typeahead:select", function(e, suggestion) {
       search(suggestion.title);
     });
+
+    $query.bind("typeahead:autocomplete", function(e, suggestion) {
+      search(suggestion.title);
+      $query.typeahead('close');
+    });
   }
 
   function addMarker(location) {
