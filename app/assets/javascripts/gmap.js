@@ -58,6 +58,10 @@ $(document).ready(function(){
       search(suggestion.title);
       $query.typeahead('close');
     });
+
+    $query.on("input", function(e) {
+      if (!e.target.value.length) { search(""); }
+    });
   }
 
   function addMarker(location) {
@@ -118,6 +122,7 @@ $(document).ready(function(){
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       prefetch: {
         url: "/articles.json",
+        cache: false,
         transform: function(response) { return response.articles; }
       }
     });
