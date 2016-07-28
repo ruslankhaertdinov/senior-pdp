@@ -9,6 +9,7 @@
 #= require foundation
 #= require current_user
 #= require skim
+#= requree plugins/typeahead.bundle
 #= require_tree ../templates
 #= require_tree .
 

@@ -50,9 +50,17 @@ $(document).ready(function(){
   }
 
   function bindFilter() {
-    $query.on("input", function(){
-      clearTimeout(timerId);
-      timerId = setTimeout(search, 500);
+    $query.bind("typeahead:select", function(e, suggestion) {
+      search(suggestion.title);
+    });
+
+    $query.bind("typeahead:autocomplete", function(e, suggestion) {
+      search(suggestion.title);
+      $query.typeahead('close');
+    });
+
+    $query.on("input", function(e) {
+      if (!e.target.value.length) { search(""); }
     });
   }
 
@@ -78,12 +86,12 @@ $(document).ready(function(){
     })
   }
 
-  function search() {
-    $.get("/authors/search", { query: $query.val() })
+  function search(query) {
+    $.get("/authors/search", { query: query })
       .done(function(data) {
         redrawMarkers(data.users)
       }).fail(function() {
-        console.error("Search error");
+        console.error("Search error.");
       });
   }
 
@@ -108,6 +116,26 @@ $(document).ready(function(){
     })
   }
 
+  function initializeAutocomplete() {
+    var articles = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace("title"),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      prefetch: {
+        url: "/articles.json",
+        cache: false,
+        transform: function(response) { return response.articles; }
+      }
+    });
+
+    articles.initialize();
+
+    $query.typeahead(null, {
+      display: "title",
+      source: articles.ttAdapter()
+    });
+  }
+
   initMap();
+  initializeAutocomplete();
   bindFilter();
 });
