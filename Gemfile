@@ -45,6 +45,7 @@ gem "responders"
 gem "rollbar"
 gem "seedbank"
 gem "stackprof"
+gem "stripe"
 
 group :test, :development, :staging do
   gem "factory_girl_rails"

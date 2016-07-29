@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     get :search, on: :collection
   end
   resources :articles, only: %i(index)
+  resources :charges, only: %i(new create)
   root to: "pages#home"
 end
