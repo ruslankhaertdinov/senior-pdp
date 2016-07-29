@@ -14,6 +14,8 @@ feature "Update Account" do
   end
 
   background do
+    create(:article)
+
     visit edit_user_registration_path(current_user)
   end
 
