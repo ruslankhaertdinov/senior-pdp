@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :locations, only: [] do
     get :fetch, on: :collection
   end
-  resources :authors, only: [] do
+  resources :authors, only: %i(show) do
     get :search, on: :collection
   end
   resources :articles, only: %i(index)

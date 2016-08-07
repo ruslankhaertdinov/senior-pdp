@@ -1,4 +1,6 @@
 $(document).ready(function(){
+  if (window.location.pathname != "/") return;
+
   var DEFAULT_COORDS = { lat: 37.773972, lng: -122.431297 };
   var AUTHORS = App.authors;
   var IMAGE_PATH = "https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m";
