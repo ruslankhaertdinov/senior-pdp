@@ -45,6 +45,8 @@ gem "responders"
 gem "rollbar"
 gem "seedbank"
 gem "stackprof"
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
 
 group :test, :development, :staging do
   gem "factory_girl_rails"
@@ -54,6 +56,7 @@ end
 group :staging, :production do
   gem "newrelic_rpm"
   gem "rails_stdout_logging"
+  gem "bonsai-elasticsearch-rails"
 end
 
 group :test do
