@@ -45,6 +45,8 @@ gem "responders"
 gem "rollbar"
 gem "seedbank"
 gem "stackprof"
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
 
 group :test, :development, :staging do
   gem "factory_girl_rails"
