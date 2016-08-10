@@ -56,6 +56,7 @@ end
 group :staging, :production do
   gem "newrelic_rpm"
   gem "rails_stdout_logging"
+  gem "bonsai-elasticsearch-rails"
 end
 
 group :test do
