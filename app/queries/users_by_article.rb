@@ -11,12 +11,16 @@ class UsersByArticle
   def all
     return User.all if query.blank?
 
-    Rails.cache.fetch(query) do
-      User.joins(:articles).where("articles.title ~* ?", normalized_query).uniq
-    end
+    User.joins(:articles).where("articles.id IN (?)", articles).uniq
   end
+
+  private
 
   def normalized_query
     query.strip
+  end
+
+  def articles
+    Article.search(query).records
   end
 end

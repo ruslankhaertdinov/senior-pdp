@@ -45,6 +45,8 @@ gem "responders"
 gem "rollbar"
 gem "seedbank"
 gem "stackprof"
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
 
 group :test, :development, :staging do
   gem "factory_girl_rails"
@@ -67,6 +69,7 @@ group :test do
   gem "rspec-its"
   gem "shoulda-matchers"
   gem "webmock", require: false
+  gem "elasticsearch-extensions"
 end
 
 group :development, :test do
