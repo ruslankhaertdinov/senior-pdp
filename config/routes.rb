@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   end
   resources :articles, only: %i(index)
   resources :charges, only: %i(new create)
+  resources :author_articles
   root to: "pages#home"
 end
