@@ -15,7 +15,7 @@ class AuthorArticlesController < ApplicationController
 
   def create
     if article.save
-      redirect_to author_article_url(article), notice: "Article created successful!"
+      respond_with(article, location: author_article_url(article))
     else
       render :new
     end
@@ -26,7 +26,7 @@ class AuthorArticlesController < ApplicationController
 
   def update
     if article.save
-      redirect_to author_article_url(article), notice: "Article updated successful!"
+      respond_with(article, location: author_article_url(article))
     else
       render :edit
     end
@@ -34,7 +34,7 @@ class AuthorArticlesController < ApplicationController
 
   def destroy
     article.destroy
-    redirect_to author_articles_url, notice: "Article deleted successful!"
+    respond_with(article, location: author_articles_url)
   end
 
   private
