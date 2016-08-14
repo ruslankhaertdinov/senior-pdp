@@ -1,0 +1,3 @@
+= render "articles/article"
+p = link_to "Edit", edit_account_article_path(article)
+p = link_to "Delete", account_article_path(article), method: :delete, data: { confirm: "Are you sure?" }

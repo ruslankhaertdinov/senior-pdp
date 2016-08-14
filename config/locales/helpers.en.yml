@@ -1,7 +1,7 @@
 en:
   helpers:
     submit:
-      # Default
+      # Default:
       create: "Create %{model}"
       update: "Update %{model}"
 

@@ -1,7 +1,0 @@
-.row
-  .columns
-    h2 User Articles
-    - articles.each do |article|
-      p = article.title
-      p = link_to "Edit", edit_author_article_path(article)
-      p = link_to "Delete", author_article_path(article), method: :delete, data: { confirm: "Are you sure?" }
