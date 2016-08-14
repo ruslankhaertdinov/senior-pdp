@@ -9,9 +9,8 @@ feature "Account Articles" do
 
     visit account_articles_path
 
-    expect(page).to have_text(article_1.title)
+    expect(page).to have_link(article_1.title, href: account_article_path(article_1))
     expect(page).not_to have_text(article_2.title)
-    expect(page).to have_manage_links
   end
 
   scenario "Author shows own article" do

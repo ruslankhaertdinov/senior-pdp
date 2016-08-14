@@ -8,6 +8,7 @@
       .form-inputs
         = f.input :title, required: true, autofocus: true
         = f.input :body, required: true
+        = f.input :free, as: :boolean
 
       .form-actions
         = f.button :submit
