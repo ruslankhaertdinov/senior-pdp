@@ -11,7 +11,7 @@ feature "Articles" do
 
     expect(page).to have_text(article_1.title)
     expect(page).not_to have_text(article_2.title)
-    expect(page).to have_owner_links
+    expect(page).to have_manage_links
   end
 
   scenario "Author shows own article" do
@@ -21,7 +21,7 @@ feature "Articles" do
 
     expect(page).to have_text(article.title)
     expect(page).to have_text(article.body)
-    expect(page).to have_owner_links
+    expect(page).to have_manage_links
   end
 
   scenario "Author creates article with valid params" do
