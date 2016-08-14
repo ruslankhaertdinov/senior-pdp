@@ -1,0 +1,13 @@
+.row
+  .medium-6.columns
+    = simple_form_for article, url: url do |f|
+
+      legend
+        | Create your article
+
+      .form-inputs
+        = f.input :title, required: true, autofocus: true
+        = f.input :body, required: true
+
+      .form-actions
+        = f.button :submit
