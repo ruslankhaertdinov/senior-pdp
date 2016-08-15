@@ -3,7 +3,7 @@ class PagesController < ApplicationController
 
   helper_method :authors
 
-  expose(:articles) { Article.order_recent.limit(10) }
+  expose(:articles) { Article.order_recent.limit(10).includes(:user) }
 
   def home
     fresh_when(last_modified: last_modified)

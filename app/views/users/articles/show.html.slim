@@ -1,0 +1,8 @@
+.row
+  .large-9.medium-8.columns
+    h2 = article.title
+    p
+      = article.body
+
+    p
+      = link_to "More author articles", user_articles_path(user_id: user)

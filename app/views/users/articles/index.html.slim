@@ -1,0 +1,5 @@
+.row
+  .columns
+    h2 #{user.full_name} Articles
+    - articles.each do |article|
+      = render "articles/article", article: article, cached: true

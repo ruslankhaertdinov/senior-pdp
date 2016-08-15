@@ -16,5 +16,9 @@ Rails.application.routes.draw do
     resources :articles
   end
 
+  resources :users, only: [] do
+    resources :articles, only: %i(index show), controller: "users/articles"
+  end
+
   root to: "pages#home"
 end
