@@ -10,6 +10,8 @@ class Article < ActiveRecord::Base
 
   scope :order_recent, -> { order("created_at DESC") }
 
+  delegate :full_name, to: :user, prefix: true
+
   index_name [Rails.env, model_name.collection].join("_")
 
   settings index: { number_of_shards: 1 } do
