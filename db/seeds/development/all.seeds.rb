@@ -1,4 +1,4 @@
-FactoryGirl.create(:user, email: "user@example.com")
+FactoryGirl.create(:user, email: "user@example.com", city: "Kazan")
 
 CITIES = %w(Abakan Baksan Chelyabinsk Dalmatovo Elista Frolovo Grozny Irkutsk Kazan Leninogorsk
             Moscow Naginsk Orsk Penza Rostov Saransk Tambov Ufa Vologda Yakutsk Zainsk)

@@ -3,11 +3,11 @@
     = simple_form_for [:account, article] do |f|
 
       legend
-        | Create your article
+        | Article details
 
       .form-inputs
         = f.input :title, required: true, autofocus: true
-        = f.input :body, required: true
+        = f.input :body, required: true, as: :text
         = f.input :free, as: :boolean
 
       .form-actions
