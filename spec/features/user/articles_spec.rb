@@ -11,10 +11,9 @@ feature "User articles" do
     visit user_articles_path(user_id: user_1)
 
     expect(page).to have_text(article_1.title)
-    expect(page).to have_text(article_1.body)
+    expect(page).to have_text(article_1.body[300]) # truncated content
 
     expect(page).not_to have_text(article_2.title)
-    expect(page).not_to have_text(article_2.body)
   end
 
   scenario "Visitor sees user article" do
