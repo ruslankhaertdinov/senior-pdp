@@ -1,0 +1,10 @@
+en:
+  helpers:
+    submit:
+      # Default:
+      create: "Create %{model}"
+      update: "Update %{model}"
+
+      article:
+        create: "Create article"
+        update: "Update article"

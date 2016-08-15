@@ -1,0 +1,8 @@
+en:
+  active_record:
+    models:
+      article:
+    attributes:
+      article:
+        title:
+        body:
