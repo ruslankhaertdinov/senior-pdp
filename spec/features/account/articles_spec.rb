@@ -26,7 +26,7 @@ feature "Account Articles" do
   scenario "Author creates article with valid params" do
     visit new_account_article_path
 
-    fill_form(:article, attributes_for(:article).slice(:title, :body))
+    fill_form :article, attributes_for(:article).slice(:title, :body)
     click_on submit(:article)
 
     expect(page).to have_text("Article was successfully created.")
@@ -42,22 +42,36 @@ feature "Account Articles" do
   end
 
   scenario "Author updates article" do
-    article = create(:article, title: "First article", user: current_user)
+    article = create(:article, title: "First article", body: "Coll content", user: current_user)
 
-    visit edit_account_article_path(article)
-    fill_in "Title", with: "Updated title"
-    click_on submit(:article, :update)
+    visit account_article_path(article)
 
-    expect(page).to have_text("Updated title")
+    expect(page).to have_text("First article")
+    expect(page).to have_text("Coll content")
+    expect(page).to have_text("Available for free: true")
+
+    click_on "Edit"
+    refill_form_and_submit
+
     expect(page).to have_text("Article was successfully updated.")
+    expect(page).to have_text("Updated title")
+    expect(page).to have_text("Updated body")
+    expect(page).to have_text("Available for free: false")
   end
 
   scenario "Author deletes own article" do
     article = create(:article, title: "First article", user: current_user)
 
     visit account_article_path(article)
-    click_on("Delete")
+    click_on "Delete"
 
     expect(page).to have_text("Article was successfully destroyed.")
+  end
+
+  def refill_form_and_submit
+    fill_in "Title", with: "Updated title"
+    fill_in "Body", with: "Updated body"
+    uncheck "article_free"
+    click_on submit(:article, :update)
   end
 end
