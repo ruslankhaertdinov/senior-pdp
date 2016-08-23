@@ -1,3 +1,3 @@
 h3 = article.title
 p
-  = truncate(article.body, length: 250) { link_to "Continue", user_article_path(user_id: article.user, id: article) }
+  = truncate(article.body, length: 250, separator: " ") { link_to " more", user_article_path(user_id: article.user, id: article) }

@@ -12,6 +12,7 @@ feature "User articles" do
 
     expect(page).to have_text(article_1.title)
     expect(page).to have_text(article_1.body[300]) # truncated content
+    expect(page).to have_text("Available subscriptions")
 
     expect(page).not_to have_text(article_2.title)
   end

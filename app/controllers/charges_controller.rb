@@ -3,23 +3,32 @@ class ChargesController < ApplicationController
   end
 
   def create
-    # Amount in cents
-    @amount = 500
+    begin
+      charge = Stripe::Charge.create(
+        customer: customer.id,
+        amount:   amount(customer),
+        currency: "usd"
+      )
 
-    customer = Stripe::Customer.create(
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to :back
+    end
+
+    redirect_to :back, notice: "You successfully subscribed!"
+  end
+
+  private
+
+  def customer
+    @customer ||= Stripe::Customer.create(
       email:  params[:stripeEmail],
-      source: params[:stripeToken]
+      source: params[:stripeToken],
+      plan:   params[:plan]
     )
+  end
 
-    charge = Stripe::Charge.create(
-      customer:    customer.id,
-      amount:      @amount,
-      description: "Rails Stripe customer",
-      currency:    "usd"
-    )
-
-  rescue Stripe::CardError => e
-    flash[:error] = e.message
-    redirect_to new_charge_path
+  def amount(response)
+    response["subscriptions"]["data"][0]["plan"]["amount"]
   end
 end

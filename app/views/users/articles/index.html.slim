@@ -1,5 +1,14 @@
 .row
   .columns
     h2 #{user.full_name} Articles
+
+.row
+  .columns.large-8
     - articles.each do |article|
       = render "articles/article", article: article, cached: true
+
+  .columns.small-4
+    h3 Available subscriptions
+    = render "charges/charge", amount: 700, author_name: user.full_name, period: "week", plan: "starter"
+    = render "charges/charge", amount: 2000, author_name: user.full_name, period: "month", plan: "basic"
+    = render "charges/charge", amount: 20000, author_name: user.full_name, period: "year", plan: "pro"
