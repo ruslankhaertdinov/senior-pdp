@@ -1,7 +1,7 @@
 require "rails_helper"
 
 feature "User articles" do
-  scenario "Visitor sees user articles" do
+  scenario "User sees articles for given user" do
     user_1 = create(:user)
     user_2 = create(:user)
 
@@ -12,12 +12,12 @@ feature "User articles" do
 
     expect(page).to have_text(article_1.title)
     expect(page).to have_text(article_1.body[300]) # truncated content
-    expect(page).to have_text("Available subscriptions")
+    expect(page).to have_text("Get premium access")
 
     expect(page).not_to have_text(article_2.title)
   end
 
-  scenario "Visitor sees user article" do
+  scenario "User can show only free or paid article" do
     user = create(:user)
     article = create(:article, user: user)
 
