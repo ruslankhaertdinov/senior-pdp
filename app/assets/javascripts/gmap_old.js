@@ -116,26 +116,7 @@ $(document).ready(function(){
     })
   }
 
-  function initializeAutocomplete() {
-    var articles = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace("title"),
-      queryTokenizer: Bloodhound.tokenizers.whitespace,
-      prefetch: {
-        url: "/articles.json",
-        cache: false,
-        transform: function(response) { return response.articles; }
-      }
-    });
-
-    articles.initialize();
-
-    $query.typeahead(null, {
-      display: "title",
-      source: articles.ttAdapter()
-    });
-  }
-
   initMap();
-  initializeAutocomplete();
+  articleAutocomplete = new App.Components.ArticleAutocomplete($query)
   bindFilter();
 });
