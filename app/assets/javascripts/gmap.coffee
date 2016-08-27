@@ -2,8 +2,14 @@ App.Components ||= {}
 
 class App.Components.Gmap
   constructor: (@el) ->
+    @_bindUI()
     @_initDefaultVars()
-    @_drawMap()
+    @_initMap()
+    @_bindFilter()
+
+  _bindUI: ->
+    @ui =
+      $query: $("#query")
 
   _initDefaultVars: ->
     @defaultCoords = { lat: 37.773972, lng: -122.431297 }
@@ -12,16 +18,9 @@ class App.Components.Gmap
     @imagePath = "https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m"
     @authors = App.authors
 
-  _drawMap: ->
-    @map = @_initMap()
-    @_setCenter()
-    @_drawMarkers(@authors)
-    @_initMarkerCluster()
-
   _initMap: ->
-    new google.maps.Map(@el, { center: @defaultCoords, zoom: 7, scrollwheel: false })
+    @map = new google.maps.Map(@el, { center: @defaultCoords, zoom: 7, scrollwheel: false })
 
-  _setCenter: () ->
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition ((data) =>
         @map.setCenter(@_parsePosition(data))
@@ -29,6 +28,9 @@ class App.Components.Gmap
         @_fetchIPLocation()
     else
       @_fetchIPLocation()
+
+    @_drawMarkers(@authors)
+    @markerCluster = new MarkerClusterer(@map, @markers, imagePath: @imagePath)
 
   _parsePosition: (data) ->
     {
@@ -41,9 +43,6 @@ class App.Components.Gmap
       @map.setCenter(@_parsePosition(data))
     ).fail ->
       console.error "Your location could not be fetched."
-
-  _initMarkerCluster: ->
-    new MarkerClusterer(@map, @markers, imagePath: @imagePath)
 
   _drawMarkers: (locations) ->
     locations.forEach (location, i) =>
@@ -64,5 +63,41 @@ class App.Components.Gmap
     @infoWindows.push(infoWindow)
     infoWindow
 
+  _redrawMarkers: (locations) ->
+    @_deleteMarkers();
+    @_drawMarkers(locations);
+
+    @markerCluster.clearMarkers();
+    @markerCluster.addMarkers(@markers);
+
+  _deleteMarkers: ->
+    @_clearMarkers()
+    @_closeInfoWindows()
+    @markers = []
+    @infoWindows = []
+
+  _clearMarkers: ->
+    @markers.forEach (marker, i) ->
+      marker.setMap(null)
+
+  _search: (query) ->
+    $.get("/authors/search", query: query).done((data) =>
+      @_redrawMarkers(data.users)
+    ).fail ->
+      console.error "Search error."
+
+  _bindFilter: ->
+    @ui.$query.bind "typeahead:select", (e, suggestion) =>
+      @_search(suggestion.title)
+
+    @ui.$query.bind "typeahead:autocomplete", (e, suggestion) =>
+      @_search(suggestion.title)
+      @ui.$query.typeahead "close"
+
+    @ui.$query.on "input", (e) =>
+      if !e.target.value.length
+        @_search("")
+
 gmap = new App.Components.Gmap(document.getElementById("map"))
+
 

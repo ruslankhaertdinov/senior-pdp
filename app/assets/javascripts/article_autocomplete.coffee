@@ -20,3 +20,6 @@ class App.Components.ArticleAutocomplete
     @$el.typeahead null,
       display: "title"
       source: articles.ttAdapter()
+
+$(document).ready ->
+  articleAutocomplete = new App.Components.ArticleAutocomplete(document.getElementById("query"))
