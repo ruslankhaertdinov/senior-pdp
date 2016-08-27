@@ -17,7 +17,7 @@ class App.Components.Gmap
   _bindUI: ->
     @ui =
       map: document.getElementById("map") # map not rendered if use `$("#map")`
-      $query: $("#query")
+      $query: $(".js-autocomplete")
 
   _bindEvents: ->
     @ui.$query.on "typeahead:select", @_searchSelection
@@ -107,5 +107,3 @@ $(document).ready ->
   return if !$("#map").length
 
   gmap = new App.Components.Gmap()
-
-

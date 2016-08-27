@@ -22,7 +22,7 @@ class App.Components.ArticleAutocomplete
       source: articles.ttAdapter()
 
 $(document).ready ->
-  $query = $("#query")
+  $query = $(".js-autocomplete")
   return if !$query.length
 
   articleAutocomplete = new App.Components.ArticleAutocomplete($query)
