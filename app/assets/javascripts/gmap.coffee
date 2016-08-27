@@ -2,14 +2,10 @@ App.Components ||= {}
 
 class App.Components.Gmap
   constructor: (@el) ->
-    @_bindUI()
     @_initDefaultVars()
+    @_bindUI()
+    @_bindEvents()
     @_initMap()
-    @_bindFilter()
-
-  _bindUI: ->
-    @ui =
-      $query: $("#query")
 
   _initDefaultVars: ->
     @defaultCoords = { lat: 37.773972, lng: -122.431297 }
@@ -18,13 +14,40 @@ class App.Components.Gmap
     @imagePath = "https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m"
     @authors = App.authors
 
+  _bindUI: ->
+    @ui =
+      map: document.getElementById("map") # map not rendered if use `$("#map")`
+      $query: $("#query")
+
+  _bindEvents: ->
+    @ui.$query.on "typeahead:select", @_searchSelection
+    @ui.$query.on "typeahead:autocomplete", @_searchAutocomplete
+    @ui.$query.on "input", @_performBlankSearch
+
+  _searchSelection: (event, suggestion) =>
+    @_search(suggestion.title)
+
+  _searchAutocomplete: (event, suggestion) =>
+    @_search(suggestion.title)
+    @ui.$query.typeahead("close")
+
+  _performBlankSearch: (event) =>
+    if !event.target.value.length
+      @_search("")
+
+  _search: (query) ->
+    $.get("/authors/search", query: query).done((data) =>
+      @_redrawMarkers(data.users)
+    ).fail ->
+      console.error "Search error."
+
   _initMap: ->
-    @map = new google.maps.Map(@el, { center: @defaultCoords, zoom: 7, scrollwheel: false })
+    @map = new google.maps.Map(@ui.map, { center: @defaultCoords, zoom: 7, scrollwheel: false })
 
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition ((data) =>
         @map.setCenter(@_parsePosition(data))
-      ), ->
+      ), =>
         @_fetchIPLocation()
     else
       @_fetchIPLocation()
@@ -39,7 +62,7 @@ class App.Components.Gmap
     }
 
   _fetchIPLocation: ->
-    $.get("/locations/fetch").done((data) ->
+    $.get("/locations/fetch").done((data) =>
       @map.setCenter(@_parsePosition(data))
     ).fail ->
       console.error "Your location could not be fetched."
@@ -54,21 +77,17 @@ class App.Components.Gmap
         @_createInfoWindow(location.info).open(@map, marker)
         @map.panTo(marker.getPosition())
 
-  _closeInfoWindows: ->
-    @infoWindows.forEach (box, i) ->
-      box.close()
-
   _createInfoWindow: (content) ->
     infoWindow = new google.maps.InfoWindow({ content: content })
     @infoWindows.push(infoWindow)
     infoWindow
 
   _redrawMarkers: (locations) ->
-    @_deleteMarkers();
-    @_drawMarkers(locations);
+    @_deleteMarkers()
+    @_drawMarkers(locations)
 
-    @markerCluster.clearMarkers();
-    @markerCluster.addMarkers(@markers);
+    @markerCluster.clearMarkers()
+    @markerCluster.addMarkers(@markers)
 
   _deleteMarkers: ->
     @_clearMarkers()
@@ -80,24 +99,13 @@ class App.Components.Gmap
     @markers.forEach (marker, i) ->
       marker.setMap(null)
 
-  _search: (query) ->
-    $.get("/authors/search", query: query).done((data) =>
-      @_redrawMarkers(data.users)
-    ).fail ->
-      console.error "Search error."
+  _closeInfoWindows: ->
+    @infoWindows.forEach (box, i) ->
+      box.close()
 
-  _bindFilter: ->
-    @ui.$query.bind "typeahead:select", (e, suggestion) =>
-      @_search(suggestion.title)
+$(document).ready ->
+  return if !$("#map").length
 
-    @ui.$query.bind "typeahead:autocomplete", (e, suggestion) =>
-      @_search(suggestion.title)
-      @ui.$query.typeahead "close"
-
-    @ui.$query.on "input", (e) =>
-      if !e.target.value.length
-        @_search("")
-
-gmap = new App.Components.Gmap(document.getElementById("map"))
+  gmap = new App.Components.Gmap()
 
 
