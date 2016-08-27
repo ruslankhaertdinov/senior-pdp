@@ -3,15 +3,10 @@ App.Components ||= {}
 class App.Components.Gmap
   DEFAULT_COORDS = { lat: 37.773972, lng: -122.431297 }
 
-  constructor: ->
-    @_bindUI()
-
-  _bindUI: ->
-    @ui =
-      map: document.getElementById("map") # map not rendered if use `$("#map")`
+  constructor: (@mapEl) ->
 
   draw: ->
-    map = new google.maps.Map(@ui.map, { center: DEFAULT_COORDS, zoom: 7, scrollwheel: false })
+    map = new google.maps.Map(@mapEl, { center: DEFAULT_COORDS, zoom: 7, scrollwheel: false })
 
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition ((data) =>

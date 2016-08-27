@@ -76,7 +76,8 @@ class App.Components.Markers
       box.close()
 
 $(document).ready ->
-  return if !$("#map").length
+  mapEl = document.getElementById("map")
 
-  gmap = (new App.Components.Gmap()).draw()
-  markers = new App.Components.Markers(gmap)
+  if document.body.contains(mapEl)
+    gmap = (new App.Components.Gmap(mapEl)).draw()
+    markers = new App.Components.Markers(gmap)
