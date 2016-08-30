@@ -4,7 +4,6 @@ class App.Components.Markers
   IMAGE_PATH = "https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m"
 
   constructor: (@map) ->
-    @_bindUI()
     @_bindEvents()
 
     @markers = []
@@ -13,31 +12,8 @@ class App.Components.Markers
     @_drawMarkers(App.authors)
     @markerCluster = new MarkerClusterer(@map, @markers, imagePath: IMAGE_PATH)
 
-  _bindUI: ->
-    @ui =
-      $query: $(".js-autocomplete")
-
   _bindEvents: ->
-    @ui.$query.on "typeahead:select", @_searchSelection
-    @ui.$query.on "typeahead:autocomplete", @_searchAutocomplete
-    @ui.$query.on "input", @_performBlankSearch
-
-  _searchSelection: (event, suggestion) =>
-    @_search(suggestion.title)
-
-  _searchAutocomplete: (event, suggestion) =>
-    @_search(suggestion.title)
-    @ui.$query.typeahead("close")
-
-  _performBlankSearch: (event) =>
-    if !event.target.value.length
-      @_search("")
-
-  _search: (query) ->
-    $.get("/authors/search", query: query).done((data) =>
-      @_redrawMarkers(data.users)
-    ).fail ->
-      console.error "Search error."
+    $(document).on "app:search_authors:done", @_redrawMarkers
 
   _drawMarkers: (locations) ->
     locations.forEach (location, i) =>
@@ -54,7 +30,7 @@ class App.Components.Markers
     @infoWindows.push(infoWindow)
     infoWindow
 
-  _redrawMarkers: (locations) ->
+  _redrawMarkers: (event, locations) =>
     @_deleteMarkers()
     @_drawMarkers(locations)
 

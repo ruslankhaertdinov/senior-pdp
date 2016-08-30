@@ -26,3 +26,4 @@ $(document).ready ->
   return if !$query.length
 
   articleAutocomplete = new App.Components.ArticleAutocomplete($query)
+  searchAuthors = new App.Components.SearchAuthors($query)
