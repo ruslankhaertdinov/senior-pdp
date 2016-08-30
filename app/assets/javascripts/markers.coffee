@@ -21,23 +21,18 @@ class App.Components.Markers
     @ui.$query.on "typeahead:select", @_searchSelection
     @ui.$query.on "typeahead:autocomplete", @_searchAutocomplete
     @ui.$query.on "input", @_performBlankSearch
+    $(document).on "app:search_authors:done", @_redrawMarkers
 
-  _searchSelection: (event, suggestion) =>
-    @_search(suggestion.title)
+  _searchSelection: (event, suggestion) ->
+    App.Components.SearchAuthors.perform(suggestion.title)
 
-  _searchAutocomplete: (event, suggestion) =>
-    @_search(suggestion.title)
+  _searchAutocomplete: (event, suggestion) ->
+    App.Components.SearchAuthors.perform(suggestion.title)
     @ui.$query.typeahead("close")
 
-  _performBlankSearch: (event) =>
+  _performBlankSearch: (event) ->
     if !event.target.value.length
-      @_search("")
-
-  _search: (query) ->
-    $.get("/authors/search", query: query).done((data) =>
-      @_redrawMarkers(data.users)
-    ).fail ->
-      console.error "Search error."
+      App.Components.SearchAuthors.perform("")
 
   _drawMarkers: (locations) ->
     locations.forEach (location, i) =>
@@ -54,7 +49,7 @@ class App.Components.Markers
     @infoWindows.push(infoWindow)
     infoWindow
 
-  _redrawMarkers: (locations) ->
+  _redrawMarkers: (event, locations) =>
     @_deleteMarkers()
     @_drawMarkers(locations)
 
