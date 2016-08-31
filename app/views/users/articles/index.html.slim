@@ -8,7 +8,7 @@
       = render "articles/article", article: article, cached: true
 
   .columns.small-4
-    h3 Available subscriptions
+    h3 Get premium access
     = render "charges/charge", amount: 700, author_name: user.full_name, period: "week", plan: "starter"
     = render "charges/charge", amount: 2000, author_name: user.full_name, period: "month", plan: "basic"
     = render "charges/charge", amount: 20000, author_name: user.full_name, period: "year", plan: "pro"
