@@ -9,8 +9,6 @@ class Article < ActiveRecord::Base
   validates :user, :title, :body, presence: true
 
   scope :order_recent, -> { order("created_at DESC") }
-  scope :free, -> { where(free: true) }
-  scope :paid, -> { where(free: false) }
 
   delegate :full_name, to: :user, prefix: true
 

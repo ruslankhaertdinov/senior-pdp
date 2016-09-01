@@ -20,22 +20,20 @@ feature "User sees articles" do
     expect(page).not_to have_text(article_3.title)
   end
 
-  scenario "Visitor can see free article" do
-    user_1 = create(:user)
-    article = create(:article, :free, user: user_1)
+  scenario "User can see free article" do
+    article = create(:article, :free)
 
-    visit user_article_path(user_id: user_1, id: article)
+    visit user_article_path(user_id: article.user, id: article)
 
     expect(page).to have_text(article.title)
     expect(page).to have_text(article.body)
-    expect(page).not_to have_text("Get premium access")
+    expect(page).not_to have_link("Get premium access")
   end
 
   scenario "User can't see premium article content" do
-    user_1 = create(:user)
-    article = create(:article, :premium, user: user_1)
+    article = create(:article, :premium)
 
-    visit user_article_path(user_id: user_1, id: article)
+    visit user_article_path(user_id: article.user, id: article)
 
     expect(page).to have_text(article.title)
     expect(page).not_to have_text(article.body)
@@ -43,11 +41,11 @@ feature "User sees articles" do
   end
 
   scenario "User can see paid article content" do
-    user_1 = create(:user)
-    article = create(:article, :premium, user: user_1)
     allow(current_user).to receive(:subscribed?).and_return(true)
 
-    visit user_article_path(user_id: user_1, id: article)
+    article = create(:article, :premium)
+
+    visit user_article_path(user_id: article.user, id: article)
 
     expect(page).to have_text(article.title)
     expect(page).to have_text(article.body)
