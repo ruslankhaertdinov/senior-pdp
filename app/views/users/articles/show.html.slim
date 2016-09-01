@@ -2,7 +2,9 @@
   .large-9.medium-8.columns
     h2 = article.title
     p
-      = article.body
-
+      - if ArticlePolicy.new(current_user, article).show?
+        = article.body
+      - else
+        = link_to "Get premium access", "#"
     p
       = link_to "More author articles", user_articles_path(user_id: user)

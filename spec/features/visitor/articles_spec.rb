@@ -1,7 +1,7 @@
 require "rails_helper"
 
-feature "User articles" do
-  scenario "Visitor sees free and premium articles list for given author" do
+feature "Visitor sees articles" do
+  scenario "Visitor sees articles for given author" do
     user_1 = create(:user)
     user_2 = create(:user)
 
@@ -18,19 +18,25 @@ feature "User articles" do
     expect(page).not_to have_text(article_3.title)
   end
 
-  scenario "Visitor can show only free article" do
+  scenario "Visitor can see free article" do
     user = create(:user)
-    article_1 = create(:article, :free, user: user)
-    article_2 = create(:article, :premium, user: user)
+    article = create(:article, :free, user: user)
 
-    visit user_article_path(user_id: user, id: article_1)
+    visit user_article_path(user_id: user, id: article)
 
-    expect(page).to have_text(article_1.title)
-    expect(page).to have_text(article_1.body)
+    expect(page).to have_text(article.title)
+    expect(page).to have_text(article.body)
+    expect(page).not_to have_text("Get premium access")
+  end
 
-    visit user_article_path(user_id: user, id: article_2)
+  scenario "Visitor can't see premium article content" do
+    user = create(:user)
+    article = create(:article, :premium, user: user)
 
-    expect(page).not_to have_text(article_2.title)
-    expect(page).not_to have_text(article_2.body)
+    visit user_article_path(user_id: user, id: article)
+
+    expect(page).to have_text(article.title)
+    expect(page).not_to have_text(article.body)
+    expect(page).to have_link("Get premium access")
   end
 end
