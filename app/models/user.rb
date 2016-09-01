@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
     [country, city, address].select(&:present?).join(", ")
   end
 
+  def subscribed?
+    false # stub
+  end
+
   private
 
   def full_address_changed?

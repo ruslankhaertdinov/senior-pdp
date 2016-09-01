@@ -1,9 +1,7 @@
 require "rails_helper"
 
-feature "User sees articles" do
-  include_context "current user signed in"
-
-  scenario "User sees articles for given author" do
+feature "Visitor sees articles" do
+  scenario "Visitor sees articles for given author" do
     user_1 = create(:user)
     user_2 = create(:user)
 
@@ -20,7 +18,7 @@ feature "User sees articles" do
     expect(page).not_to have_text(article_3.title)
   end
 
-  scenario "User can see free article" do
+  scenario "Visitor can see free article" do
     article = create(:article, :free)
 
     visit user_article_path(user_id: article.user, id: article)
@@ -30,7 +28,7 @@ feature "User sees articles" do
     expect(page).not_to have_link("Get premium access")
   end
 
-  scenario "User can't see premium article content" do
+  scenario "Visitor can't see premium article content" do
     article = create(:article, :premium)
 
     visit user_article_path(user_id: article.user, id: article)
@@ -38,17 +36,5 @@ feature "User sees articles" do
     expect(page).to have_text(article.title)
     expect(page).not_to have_text(article.body)
     expect(page).to have_link("Get premium access")
-  end
-
-  scenario "User can see paid article content" do
-    allow(current_user).to receive(:subscribed?).and_return(true)
-
-    article = create(:article, :premium)
-
-    visit user_article_path(user_id: article.user, id: article)
-
-    expect(page).to have_text(article.title)
-    expect(page).to have_text(article.body)
-    expect(page).not_to have_link("Get premium access")
   end
 end
