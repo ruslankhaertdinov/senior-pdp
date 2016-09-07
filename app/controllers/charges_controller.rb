@@ -4,31 +4,24 @@ class ChargesController < ApplicationController
 
   def create
     begin
-      charge = Stripe::Charge.create(
-        customer: customer.id,
-        amount:   amount(customer),
-        currency: "usd"
-      )
-
+      result = Subscribe.call(params: subscription_params, user: current_user)
     rescue Stripe::CardError => e
       flash[:error] = e.message
-      redirect_to :back
     end
 
-    redirect_to :back, notice: "You successfully subscribed!"
+    if result.success?
+      flash[:notice] = "You successfully subscribed!"
+    else
+      flash[:error] = result.message
+    end
+
+    redirect_to user_articles_path(user_id: subscription_params[:author_id])
   end
 
   private
 
-  def customer
-    @customer ||= Stripe::Customer.create(
-      email:  params[:stripeEmail],
-      source: params[:stripeToken],
-      plan:   params[:plan]
-    )
-  end
-
-  def amount(response)
-    response["subscriptions"]["data"][0]["plan"]["amount"]
+  def subscription_params
+    attributes = %i(plan author_id stripeToken stripeTokenType stripeEmail)
+    params.permit(attributes)
   end
 end

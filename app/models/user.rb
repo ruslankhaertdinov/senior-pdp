@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable
 
   has_many :articles, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   validates :full_name, presence: true
 

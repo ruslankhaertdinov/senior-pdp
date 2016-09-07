@@ -5,6 +5,6 @@
       - if ArticlePolicy.new(current_user, article).show?
         = article.body
       - else
-        = link_to "Get premium access", "#"
+        = link_to "Get premium access", user_articles_path(user_id: article.user)
     p
       = link_to "More author articles", user_articles_path(user_id: user)
