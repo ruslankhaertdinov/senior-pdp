@@ -13,7 +13,7 @@ feature "Visitor sees articles" do
 
     expect(page).to have_text(article_1.title)
     expect(page).to have_text(article_2.title)
-    expect(page).to have_text("Get premium access")
+    expect(page).to have_css("section.subscription")
 
     expect(page).not_to have_text(article_3.title)
   end

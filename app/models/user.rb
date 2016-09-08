@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
     [country, city, address].select(&:present?).join(", ")
   end
 
-  def subscribed?
-    false # stub
+  def subscribed_to?(author)
+    subscriptions.active.where(author_id: author.id).any?
   end
 
   private

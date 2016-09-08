@@ -7,9 +7,16 @@
     - articles.each do |article|
       = render "articles/article", article: article, cached: true
 
-  .columns.small-4
-    section.subscription
-      h3 Get premium access
-      = render "charges/charge", amount: 700, author: user, period: "week", plan: "starter"
-      = render "charges/charge", amount: 2000, author: user, period: "month", plan: "basic"
-      = render "charges/charge", amount: 20000, author: user, period: "year", plan: "pro"
+  - if SubscriptionPolicy.new(current_user, user).subscribe?
+    .columns.small-4
+      section.subscription
+        h3 Get premium access
+        = render "charges/charge", amount: 700, author: user, period: "week", plan: "starter"
+        = render "charges/charge", amount: 2000, author: user, period: "month", plan: "basic"
+        = render "charges/charge", amount: 20000, author: user, period: "year", plan: "pro"
+
+  - unless current_user
+    .columns.small-4
+      section.subscription
+        h3 Get premium access
+        = link_to "Login to subscribe", new_user_session_path(redirect_to: user_articles_path(user_id: user.id))
