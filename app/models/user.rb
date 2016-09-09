@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable
 
   has_many :articles, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   validates :full_name, presence: true
 
@@ -16,8 +17,8 @@ class User < ActiveRecord::Base
     [country, city, address].select(&:present?).join(", ")
   end
 
-  def subscribed?
-    false # stub
+  def subscribed_to?(author)
+    subscriptions.active.where(author_id: author.id).any?
   end
 
   private

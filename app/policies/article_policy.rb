@@ -1,13 +1,5 @@
-class ArticlePolicy
-  attr_reader :user, :article
-  private :user, :article
-
-  def initialize(user, article)
-    @user = user
-    @article = article
-  end
-
+class ArticlePolicy < ApplicationPolicy
   def show?
-    article.free? || user && user.subscribed?
+    record.free? || user && user.subscribed_to?(record.user)
   end
 end

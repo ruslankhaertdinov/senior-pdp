@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: "users/registrations" }
+  devise_for :users, controllers: { registrations: "users/registrations", sessions: "users/sessions", passwords: "users/passwords" }
 
   resources :locations, only: [] do
     get :fetch, on: :collection
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :articles, only: %i(index)
-  resources :charges, only: %i(new create)
+  resources :charges, only: %i(create)
 
   namespace :account do
     resources :articles
