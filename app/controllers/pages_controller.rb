@@ -3,7 +3,7 @@ class PagesController < ApplicationController
 
   helper_method :authors
 
-  expose(:articles) { Article.order_recent.limit(10) }
+  expose(:articles) { Article.order_recent.limit(10).includes(:user) }
 
   def home
     fresh_when(last_modified: last_modified)
@@ -16,7 +16,7 @@ class PagesController < ApplicationController
       {
         lat: user.latitude,
         lng: user.longitude,
-        info: user.full_name
+        info: view_context.link_to(user.full_name, user_articles_path(user_id: user), target: :blank)
       }
     end
   end

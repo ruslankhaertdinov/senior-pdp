@@ -1,5 +1,5 @@
 class AuthorsController < ApplicationController
-  expose(:authors) { UsersByArticle.new(query_params[:query]).with_position }
+  expose(:authors) { UsersByArticle.new(query).with_position }
 
   def search
     render json: authors, each_serializer: AuthorSerializer
@@ -7,7 +7,7 @@ class AuthorsController < ApplicationController
 
   private
 
-  def query_params
-    params.permit(:query)
+  def query
+    params.permit(:query)[:query]
   end
 end

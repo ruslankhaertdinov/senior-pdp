@@ -1,0 +1,22 @@
+.row
+  .columns
+    h2 User Articles
+
+    - if articles.any?
+      table
+        thead
+          tr
+            th Title
+            th Body
+            th Free
+        tbody
+          - articles.each do |article|
+            tr
+              td = link_to article.title, account_article_path(article)
+              td = article.body
+              td = article.free
+    - else
+      p There are no articles, feel free to #{link_to "create first one", new_account_article_path}
+
+
+    p = link_to "New article", new_account_article_path

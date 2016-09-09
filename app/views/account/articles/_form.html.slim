@@ -1,0 +1,14 @@
+.row
+  .medium-6.columns
+    = simple_form_for [:account, article] do |f|
+
+      legend
+        | Article details
+
+      .form-inputs
+        = f.input :title, required: true, autofocus: true
+        = f.input :body, required: true, as: :text
+        = f.input :free, as: :boolean
+
+      .form-actions
+        = f.button :submit

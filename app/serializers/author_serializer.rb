@@ -1,4 +1,8 @@
 class AuthorSerializer < ApplicationSerializer
+  include ActionView::Helpers::UrlHelper
+
+  delegate :url_helpers, to: "Rails.application.routes"
+
   attributes :lat, :lng, :info
 
   def lat
@@ -10,6 +14,6 @@ class AuthorSerializer < ApplicationSerializer
   end
 
   def info
-    object.full_name
+    link_to object.full_name, url_helpers.user_articles_path(user_id: object), target: :blank
   end
 end

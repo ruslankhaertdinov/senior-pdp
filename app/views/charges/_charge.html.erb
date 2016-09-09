@@ -1,0 +1,12 @@
+<%= form_tag charges_path, class: "subscription" do %>
+  <%= hidden_field_tag :plan, plan %>
+  <%= hidden_field_tag :author_id, author.id %>
+
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="Subscription for 1 <%= period %>"
+          data-amount="<%= amount %>"
+          data-label="<%= period.capitalize %>: $<%= amount/100 %>"
+          data-name="<%= author.full_name %>'s articles"
+          data-locale="auto"></script>
+<% end %>

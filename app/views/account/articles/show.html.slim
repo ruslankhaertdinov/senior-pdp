@@ -1,0 +1,11 @@
+.row
+  .large-9.medium-8.columns
+    = render "article", article: article
+    p
+      = link_to "Articles", account_articles_path
+      '  |
+      '
+      = link_to "Edit", edit_account_article_path(article)
+      '  |
+      '
+      = link_to "Delete", account_article_path(article), method: :delete, data: { confirm: "Are you sure?" }
