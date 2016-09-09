@@ -71,7 +71,6 @@ group :test do
   gem "rspec-its"
   gem "shoulda-matchers"
   gem "webmock", require: false
-  gem "vcr"
 end
 
 group :development, :test do

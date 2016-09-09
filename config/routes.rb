@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :articles, only: %i(index)
-  resources :charges, only: %i(new create)
+  resources :charges, only: %i(create)
 
   namespace :account do
     resources :articles

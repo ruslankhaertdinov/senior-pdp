@@ -1,18 +1,11 @@
 class ChargesController < ApplicationController
-  def new
-  end
-
   def create
     begin
       result = Subscribe.call(params: subscription_params, user: current_user)
+      flash[:notice] = "You successfully subscribed!" if result.success?
+      flash[:error] = result.message if result.failure?
     rescue Stripe::CardError => e
       flash[:error] = e.message
-    end
-
-    if result.success?
-      flash[:notice] = "You successfully subscribed!"
-    else
-      flash[:error] = result.message
     end
 
     redirect_to user_articles_path(user_id: subscription_params[:author_id])

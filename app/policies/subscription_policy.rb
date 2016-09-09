@@ -7,7 +7,7 @@ class SubscriptionPolicy
     @author = author
   end
 
-  def subscribe?
+  def show?
     user && !user.subscribed_to?(author)
   end
 end
