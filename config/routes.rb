@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     get :fetch, on: :collection
   end
 
-  resources :authors, only: %i(show) do
+  resources :authors, only: [] do
     get :search, on: :collection
   end
 

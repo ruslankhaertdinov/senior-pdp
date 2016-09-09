@@ -20,7 +20,7 @@ class App.Components.Markers
       marker = new google.maps.Marker({ position: location, map: @map })
       @markers.push(marker)
 
-      marker.addListener "click", ->
+      marker.addListener "click", =>
         @_closeInfoWindows()
         @_createInfoWindow(location.info).open(@map, marker)
         @map.panTo(marker.getPosition())

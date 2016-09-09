@@ -14,6 +14,6 @@ class AuthorSerializer < ApplicationSerializer
   end
 
   def info
-    link_to object.full_name, url_helpers.author_path(object), target: :blank
+    link_to object.full_name, url_helpers.user_articles_path(user_id: object), target: :blank
   end
 end

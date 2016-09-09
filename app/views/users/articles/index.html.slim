@@ -14,7 +14,7 @@
         - Subscription::PERIODS.each do |plan, period|
           = render "charges/charge", amount: Subscription::PRICE[plan], author: user, period: period, plan: plan
 
-  - unless current_user
+  - if articles.premium.any? && !current_user
     .columns.small-4
       section.subscription
         h3 Get premium access
