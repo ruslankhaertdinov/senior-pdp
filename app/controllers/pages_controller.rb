@@ -16,7 +16,7 @@ class PagesController < ApplicationController
       {
         lat: user.latitude,
         lng: user.longitude,
-        info: view_context.link_to(user.full_name, author_path(user), target: :blank)
+        info: view_context.link_to(user.full_name, user_articles_path(user_id: user), target: :blank)
       }
     end
   end
