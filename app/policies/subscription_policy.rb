@@ -8,6 +8,6 @@ class SubscriptionPolicy
   end
 
   def show?
-    user && !user.subscribed_to?(author)
+    author.articles.premium.any? && user && !user.subscribed_to?(author)
   end
 end
