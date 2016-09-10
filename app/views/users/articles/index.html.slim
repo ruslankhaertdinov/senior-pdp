@@ -1,6 +1,8 @@
 .row
   .columns
     h2 #{user.full_name} Articles
+    - if current_user && current_user.subscribed_to?(user)
+      | (Premium access)
 
 .row
   .columns.large-8

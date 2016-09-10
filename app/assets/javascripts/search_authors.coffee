@@ -21,7 +21,7 @@ class App.Components.SearchAuthors
       @_search("")
 
   _search: (query) ->
-    $.get("/authors/search", query: query).done((data) ->
+    $.get("/users/search", query: query).done((data) ->
       $(document).trigger("app:search_authors:done", [data.users])
     ).fail ->
       console.error "Search error."
