@@ -5,10 +5,6 @@ Rails.application.routes.draw do
     get :fetch, on: :collection
   end
 
-  resources :authors, only: [] do
-    get :search, on: :collection
-  end
-
   resources :articles, only: %i(index)
   resources :charges, only: %i(create)
 
@@ -17,6 +13,8 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [] do
+    get :search, on: :collection
+
     resources :articles, only: %i(index show), controller: "users/articles"
   end
 
