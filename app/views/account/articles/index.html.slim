@@ -1,22 +1,15 @@
 .row
-  .columns
-    h2 User Articles
-
+  .columns.large-8
+    h2 My articles
     - if articles.any?
-      table
-        thead
-          tr
-            th Title
-            th Body
-            th Free
-        tbody
-          - articles.each do |article|
-            tr
-              td = link_to article.title, account_article_path(article)
-              td = article.body
-              td = article.free
+      - articles.each do |article|
+        = render "article", article: article, cached: true
+        p
+          = link_to "Show", account_article_path(article)
+          '  |
+          '
+          = render "manager_links", article: article
     - else
-      p There are no articles, feel free to #{link_to "create first one", new_account_article_path}
-
+      p There are no articles
 
     p = link_to "New article", new_account_article_path

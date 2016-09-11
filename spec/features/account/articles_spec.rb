@@ -9,7 +9,8 @@ feature "Account Articles" do
 
     visit account_articles_path
 
-    expect(page).to have_link(article_1.title, href: account_article_path(article_1))
+    expect(page).to have_text(article_1.title)
+    expect(page).to have_manager_links
     expect(page).not_to have_text(article_2.title)
   end
 
@@ -20,7 +21,7 @@ feature "Account Articles" do
 
     expect(page).to have_text(article.title)
     expect(page).to have_text(article.body)
-    expect(page).to have_manage_links
+    expect(page).to have_manager_links
   end
 
   scenario "Author creates article with valid params" do
