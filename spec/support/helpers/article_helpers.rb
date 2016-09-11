@@ -1,5 +1,5 @@
 module ArticleHelpers
-  def have_manage_links
+  def have_manager_links
     have_link("Edit")
     have_link("Delete")
   end
