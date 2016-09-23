@@ -6,7 +6,6 @@ class PagesController < ApplicationController
   expose(:articles) { Article.order_recent.limit(10).includes(:user) }
 
   def home
-    fresh_when(last_modified: last_modified)
   end
 
   private
@@ -23,12 +22,5 @@ class PagesController < ApplicationController
 
   def users_with_position
     @users_with_position ||= User.with_position
-  end
-
-  def last_modified
-    [
-      articles.maximum(:updated_at),
-      users_with_position.maximum(:updated_at)
-    ].max
   end
 end
