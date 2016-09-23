@@ -4,7 +4,7 @@ class Article < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
-  belongs_to :user
+  belongs_to :user, touch: true
 
   validates :user, :title, :body, presence: true
 
