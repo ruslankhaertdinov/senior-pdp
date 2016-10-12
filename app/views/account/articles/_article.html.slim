@@ -1,6 +1,8 @@
-h3 = article.title
-p
-  = article.body
-  br
-  br
-  em Available for free: #{article.free}
+.post
+  h3.post__title = article.title
+  p
+    span.post__text
+      = article.body
+    br
+    br
+    em.post__more Available for free: #{article.free}

@@ -1,3 +1,7 @@
-h3 = article.title
-p
-  = truncate(article.body, length: 250, separator: " ") { link_to " more", user_article_path(user_id: article.user, id: article) }
+.panel.post
+  - if controller_name == "pages"
+    h5
+      = link_to article.user_full_name, user_articles_path(user_id: article.user_id), class: "post__author"
+  h3.post__title = article.title
+  p.post__text
+    = truncate(article.body, length: 250, separator: " ") { content_tag(:div, content_tag(:a, "Read more", href: user_article_path(user_id: article.user, id: article), class: "post__more")) }
