@@ -2,6 +2,5 @@
 
 set -e
 
-bin/rspec spec
-bin/rake jasmine:ci
-bin/quality
+bin/setup
+xvfb-run bin/rspec spec

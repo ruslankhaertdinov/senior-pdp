@@ -1,0 +1,10 @@
+sudo: false
+language: ruby
+cache: bundler
+rvm:
+  - 2.3.0
+services:
+  - elasticsearch
+before_script:
+  - sleep 10
+script: bin/ci
