@@ -3,12 +3,4 @@ language: ruby
 cache: bundler
 rvm:
   - 2.3.0
-env:
-  - GOOGLE_MAP_KEY=AIzaSyAB-tWDWTMXDPAbwiKwxGxtevcrIKmJFo0
-  - HOST=senior-pdp.herokuapp.com
-  - MAILER_SENDER_ADDRESS=user@example.com
-  - PUBLISHABLE_KEY=pk_test_6pRNASCoBOKtIshFeQd4XMUh
-  - SECRET_KEY=sk_test_BQokikJOvBiI2HlWgH4olfQ2
-  - STRIPE_PUBLISHABLE_KEY=pk_test_23SNRLpjKx4km7nYB09kgzgT
-  - STRIPE_SECRET_KEY=sk_test_oHXgo4mPxoVV3ARfAaIEZGdv
 script: bin/ci
