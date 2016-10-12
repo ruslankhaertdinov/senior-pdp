@@ -3,4 +3,4 @@
 set -e
 
 bin/setup
-bin/rspec spec
+xvfb-run bin/rspec spec
