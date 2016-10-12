@@ -2,4 +2,5 @@
 
 set -e
 
+bin/setup
 bin/rspec spec
