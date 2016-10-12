@@ -80,6 +80,13 @@ legend {
   }
 }
 
+input.button,
 .button {
   white-space: normal;
+  border-radius: 5px;
+  background-color: $main-color;
+}
+
+textarea {
+  min-height: rem-calc(150);
 }

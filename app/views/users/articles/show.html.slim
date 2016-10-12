@@ -1,10 +1,13 @@
 .row
   .large-9.medium-8.columns
-    h2 = article.title
-    p
-      - if policy(article).show?
-        = article.body
-      - else
-        = link_to "Get premium access", user_articles_path(user_id: article.user)
-    p
-      = link_to "More author articles", user_articles_path(user_id: user)
+    .post
+      h2.post__title = article.title
+      p
+        - if policy(article).show?
+          span.post__text
+            = article.body
+        - else
+          p Only premium users can read this article
+          = link_to "Get premium access", user_articles_path(user_id: article.user), class: "button"
+      p
+        = link_to "More author articles", user_articles_path(user_id: user)
