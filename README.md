@@ -1,5 +1,7 @@
 Blog with subscriptions
 
+[![Build Status](https://travis-ci.org/ruslankhaertdinov/senior-pdp.svg?branch=master)](https://travis-ci.org/ruslankhaertdinov/senior-pdp)
+
 It's based on Rails 4 and Ruby 2.3.0.
 
 ## Scripts

@@ -3,4 +3,3 @@
 set -e
 
 bin/rspec spec
-bin/quality
