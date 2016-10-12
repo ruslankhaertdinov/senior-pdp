@@ -2,7 +2,7 @@
   .columns
     h2 #{user.full_name} Articles
     - if current_user && current_user.subscribed_to?(user)
-      | (Premium access)
+      h4 Premium access
 
 .row
   - if articles.any?
